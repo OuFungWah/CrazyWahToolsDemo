@@ -3,8 +3,6 @@ apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 26
 
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 26
@@ -30,6 +28,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -38,7 +37,7 @@ publish {
     userOrg = 'oufenghua1997'    //bintray.com用户名
     groupId = 'com.crazywah'    //jcenter上的路径
     artifactId = 'crazywahtools'    //自己的maven上添加的包名
-    publishVersion = '0.0.1'    //版本号
+    publishVersion = '0.0.3'    //版本号
     desc = 'A useful tool on Android'    //描述
     website = 'https://github.com/OuFungWah/CrazyWahToolsDemo'    //网站，不重要；
 }

@@ -30,7 +30,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置LayoutId
      *
-     * @return
+     * @return 返回布局的id
      */
     protected abstract int setLayoutId();
 
