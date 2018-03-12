@@ -40,5 +40,5 @@ publish {
     artifactId = 'crazywahtools'    //自己的maven上添加的包名
     publishVersion = '0.0.1'    //版本号
     desc = 'A useful tool on Android'    //描述
-    website = 'https://github.com/OuFungWah/FungWahToolsDemo'    //网站，不重要；
+    website = 'https://github.com/OuFungWah/CrazyWahToolsDemo'    //网站，不重要；
 }
