@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 /**
- * 用于方便使用SharePreferences对数据进行持久化的工具类
+ * 用于方便使用SharePreferences(共享偏好设置)对数据进行持久化的工具类
+ * 注意SharedPreferences不能存储过大的对象，这个只是一个轻量级的存储方法，较大的建议使用SQLite数据库或文件的方式进行存储
  * Created by FungWah on 2018/3/12.
  */
 
