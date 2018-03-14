@@ -21,7 +21,7 @@
         final SharedPreferences.Editor editor1 = sharedPreferences1.edit();
         final SharedPreferences.Editor editor2 = sharedPreferences2.edit();
         editor1.putInt("test", 0);
-        editor1.commit(); 
+        editor1.commit();
 
         new Thread(new Runnable() {
             @Override
@@ -72,6 +72,53 @@
 
 ```
 从结果中我们不难看到`SharedPreferences`的特点：同一个文件名生成的`SharedPreferences`对象都是相同的。从两个线程中输出的数据证实了前面提及过的一个特点---**数据的同步**。<br/>
+
+接着，我又再作尝试，将本篇文章塞到一个`String`当中作为一个`Value`保存到`SharedPreferences`中去，结果：
+```
+03-14 14:06:25.829 6053-6053/com.crazywah.crazywahtoolsdemo D/SharedPreferencesTest: onCreate: my map # `SharedPreferences` 源码透析与总结
+	.....
+
+	从结果中我们不难看到`SharedP
+
+```
+输出时发现仅保存到了本文当前这个位置上一点的位置，即本文的18%左右，后来我换成`Map`再试了一遍，将本文存到`Map`中并输出，结果与上面这个结果完全一致，从中我们就发现，单个`Value`的存储限制是来自于`Map`的存储限制，而超出限制的部分数据将会直接丢失。（本文第一版大小为19KB，即该存储限制约为3.42KB，这般大小很完美地诠释了什么叫轻量级）。
+
+*PS:一个大胆的实验就此诞生~*
+
+既然`SharedPreferences`是一个轻量级的存储方案，那除了`Map`对存储的`Values`有固定的大小规定外，其他的有吗？于是抱着这个心态我就试了以下代码：
+
+```java
+
+	new Thread(new Runnable() {
+        @Override
+        public void run() {
+            int i = 0;
+            while(true){
+                try{
+                    editor1.putString("md"+i,"此处原本为本文章内容，限于篇幅问题此处省略...");
+                    editor1.commit();
+                    Log.d(TAG, "run: i = "+i++);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }).start();
+
+```
+
+上述代码做的事情就一件，疯狂地往`SharePreferences`塞本文章的数据，结果有点出乎我意料：
+```
+	...
+	03-14 14:30:09.423 6488-6519/com.crazywah.crazywahtoolsdemo D/SharedPreferencesTest: run: i = 903
+	03-14 14:30:09.588 6488-6519/com.crazywah.crazywahtoolsdemo D/SharedPreferencesTest: run: i = 904
+	03-14 14:30:09.753 6488-6519/com.crazywah.crazywahtoolsdemo D/SharedPreferencesTest: run: i = 905
+	03-14 14:30:09.904 6488-6519/com.crazywah.crazywahtoolsdemo D/SharedPreferencesTest: run: i = 906
+	...
+
+```
+这段代码一直塞数据直到我把程序停止掉，该应用的存储占用也随之疯狂涨至39.78MB。
+
 通过源码的分析我们会知道为什么`SharedPreferences`会有这样的特点
 
 ### 读取与加载 `SharedPreferences` 保存的文件数据
