@@ -21,7 +21,7 @@
         final SharedPreferences.Editor editor1 = sharedPreferences1.edit();
         final SharedPreferences.Editor editor2 = sharedPreferences2.edit();
         editor1.putInt("test", 0);
-        editor1.commit();
+        editor1.commit(); 
 
         new Thread(new Runnable() {
             @Override
